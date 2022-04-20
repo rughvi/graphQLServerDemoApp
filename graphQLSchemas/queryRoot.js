@@ -1,6 +1,4 @@
 const graphql = require('graphql');
-//const Player = require('../graphQLObjectTypes/player').Player;
-//const Team = require('../graphQLObjectTypes/team').Team;
 const objects = require('../graphQLObjectTypes/objects');
 const dbClient = require('../db/dbClient').dbClient;
 
