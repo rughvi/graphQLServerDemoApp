@@ -31,14 +31,17 @@ const Player = new graphql.GraphQLObjectType({
     fields: () => ({
       id: { type: graphql.GraphQLInt },
       name: { type: graphql.GraphQLString },
-    //   players: {
-    //     type: graphql.GraphQLList(Player),
-    //     extensions: {
-    //         joinMonster:{
-    //             sqlJoin: (teamTable, playerTable, args) => `${teamTable}.id = ${playerTable}.team_id`
-    //         }
-    //     }        
-    //  }
+      players: {
+        type: graphql.GraphQLList(Player),
+        resolve: (parent, args, context, resolveInfo) => {
+          const query = `SELECT * FROM player WHERE team_id=$1`;
+          const values=[parent.id]
+
+          return dbClient.query(query,values)
+          .then(res => res.rows)
+          .catch(err => err);
+        }
+      }
     })
   })
       
@@ -48,5 +51,6 @@ const Player = new graphql.GraphQLObjectType({
   }
 
   module.exports = {
-      Player
+      Player,
+      Team
   }

@@ -19,6 +19,15 @@ const QueryRoot = new graphql.GraphQLObjectType({
                   .then(res => res.rows)
                   .catch(err => err);
               }
+          },
+          teams: {
+              type: new graphql.GraphQLList(objects.Team),
+              resolve: (parent, args, context, resolveInfo) => {
+                  const query = `SELECT * FROM team`;
+                  return dbClient.query(query)
+                  .then(res => res.rows)
+                  .catch(err => err);
+              }
           }
     })
 })
